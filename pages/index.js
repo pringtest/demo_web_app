@@ -8,9 +8,12 @@ import { useEffect, useState } from 'react'
 import moment from 'moment'
 import { Button, Select } from 'antd';
 import 'antd/dist/antd.css';
+import dynamic from 'next/dynamic'
+
+const DynamicReactJson = dynamic(import('react-json-view'), { ssr: false });
 
 // actions
-import { queryAllData } from '../appRedux/actions'
+import { queryDynamoDB } from '../appRedux/actions'
 
 const headingStyles = {
   marginTop: 0,
@@ -32,26 +35,14 @@ const codeStyles = {
 }
 
 const Home = () => {
-  const { Option } = Select;
   const dispatch = useDispatch();
-  const { allData_loader, dateSelection, allData } = useSelector((state) => state)
-  const [selectParam, setSelectParam] = useState([]);
+  const { dynamoDB_Data, rds_Data, dynamoDB_Data_loader, rds_Data_loader } = useSelector((state) => state)
 
-  const _queryButton = () => {
-    let { startDate, endDate } = dateSelection;
-
-    let params = {
-      dateFrom: moment(endDate).add(1, 'days').toISOString(),
-      dateTo: moment(startDate).toISOString(),
-      paramList: JSON.stringify(selectParam)
-    }
-    dispatch(queryAllData(params))
-
+  const _dynamoDB_onClick = () => {
+    dispatch(queryDynamoDB())
   }
-
-  const _selectChange = (value) => {
-    console.log("value", value)
-    setSelectParam(value)
+  const _rds_onClick = () => {
+    // dispatch(queryAllData(params))
   }
 
   return (
@@ -81,6 +72,38 @@ const Home = () => {
             </code>
           </p>
         </div>
+
+        <div style={{ display: "flex", flex: 1, flexDirection: "row" }}>
+          <div style={{ padding: 20, flex: 0.5 }}>
+            <h1>
+              Click below button to get data from Dynamo DB
+            </h1>
+            <div style={{ marginTop: 20 }}>
+              <Button type="primary" loading={dynamoDB_Data_loader} onClick={_dynamoDB_onClick}>
+                Query
+              </Button>
+            </div>
+            <div style={{ marginTop: 20, padding: 10, borderWidth: 1, borderColor: "black" }}>
+              <DynamicReactJson src={dynamoDB_Data} />
+            </div>
+          </div>
+
+          <div style={{ padding: 20, flex: 0.5 }}>
+            <h1>
+              Click below button to get data from RDS
+            </h1>
+            <div style={{ marginTop: 20 }}>
+              <Button type="primary" loading={rds_Data_loader} onClick={_rds_onClick}>
+                Query
+              </Button>
+            </div>
+            <div style={{ marginTop: 20, padding: 10, borderWidth: 1, borderColor: "black" }}>
+              <DynamicReactJson src={rds_Data} />
+            </div>
+          </div>
+        </div>
+
+
       </main>
 
       <footer className={styles.footer}>

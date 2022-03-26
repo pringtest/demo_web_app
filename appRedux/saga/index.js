@@ -1,42 +1,40 @@
 import { all, fork, call, put, takeEvery } from 'redux-saga/effects'
 
 import {
-   QUERY_ALL_DATA
+   QUERY_DYNAMO_DB
 } from "../constants";
 
 // actions
 import { 
-   queryAllDataSuccess 
+   queryDynamoDBSuccess 
 } from '../actions'
 
 // services
 import {
-   queryAllDataApi,
+   queryDynamoDBApi,
 } from "../api";
 
-function* queryAllDataRequest({ payload }) {
-   console.log(payload)
-
+function* queryDynamoDBRequest({ payload }) {
    try {
-      const data = yield call(queryAllDataApi, payload);
-      
+      const data = yield call(queryDynamoDBApi, payload);
       console.log("dataQuery: ", data)
-
       if (data) {
-         yield put(queryAllDataSuccess(data));
+         yield put(queryDynamoDBSuccess(data));
+      } else {
+         throw data
       }
    } catch (error) {
       console.log(error)
    }
 }
 
-export function* queryAllData() {
-   yield takeEvery(QUERY_ALL_DATA, queryAllDataRequest)
+export function* queryDynamoDB() {
+   yield takeEvery(QUERY_DYNAMO_DB, queryDynamoDBRequest)
 }
 
 function* rootSaga() {
    yield all([
-      fork(queryAllData)
+      fork(queryDynamoDB)
    ])
 }
 

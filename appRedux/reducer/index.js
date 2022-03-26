@@ -1,29 +1,18 @@
 import {
-   QUERY_ALL_DATA,
-   QUERY_ALL_DATA_SUCCESS,
-   UPDATE_DATE_SELECTION
+   QUERY_DYNAMO_DB,
+   QUERY_DYNAMO_DB_SUCCESS,
+   QUERY_RDS,
+   QUERY_RDS_SUCCESS,
 } from '../constants'
 
 import { HYDRATE } from 'next-redux-wrapper'
 
-function roundMinutes(date) {
-   date.setHours(0);
-   date.setMinutes(0, 0, 0); // Resets also seconds and milliseconds
-
-   return date;
-}
 
 const initialState = {
-   allData: {
-      param: ["empty"],
-      data: []
-   },
-   allData_loader: false,
-   dateSelection: {
-      startDate: roundMinutes(new Date()),
-      endDate: roundMinutes(new Date()),
-      key: 'selection'
-   }
+   dynamoDB_Data: {},
+   rds_Data: {},
+   dynamoDB_Data_loader: false,
+   rds_Data_loader: false,
 }
 
 const rootReducer = (state = initialState, action) => {
@@ -38,23 +27,31 @@ const rootReducer = (state = initialState, action) => {
          }
       }
 
-      case QUERY_ALL_DATA: {
+      case QUERY_DYNAMO_DB: {
          return {
             ...state,
-            allData_loader: true,
+            dynamoDB_Data_loader: true,
          }
       }
-      case QUERY_ALL_DATA_SUCCESS: {
+      case QUERY_DYNAMO_DB_SUCCESS: {
          return {
             ...state,
-            allData_loader: false,
-            allData: action.payload
+            dynamoDB_Data_loader: false,
+            dynamoDB_Data: action.payload
          }
       }
-      case UPDATE_DATE_SELECTION: {
+
+      case QUERY_RDS: {
          return {
             ...state,
-            dateSelection: action.payload.selection,
+            rds_Data_loader: true,
+         }
+      }
+      case QUERY_RDS_SUCCESS: {
+         return {
+            ...state,
+            rds_Data_loader: false,
+            rds_Data: action.payload
          }
       }
 

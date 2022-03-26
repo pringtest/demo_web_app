@@ -1,26 +1,32 @@
 import {
-   QUERY_ALL_DATA,
-   QUERY_ALL_DATA_SUCCESS,
-   UPDATE_DATE_SELECTION,
+   QUERY_DYNAMO_DB,
+   QUERY_DYNAMO_DB_SUCCESS,
+   QUERY_RDS,
+   QUERY_RDS_SUCCESS,
 } from "../constants";
 
-/* -------------------------------------------------------- */
-export const queryAllData = (response) => {
+
+export const queryDynamoDB = (response={}) => {
    return {
-      type: QUERY_ALL_DATA,
+      type: QUERY_DYNAMO_DB,
       payload: response
    };
 };
-export const queryAllDataSuccess = (response) => {
+export const queryDynamoDBSuccess = (response={}) => {
    return {
-      type: QUERY_ALL_DATA_SUCCESS,
+      type: QUERY_DYNAMO_DB_SUCCESS,
       payload: response,
    };
 };
-export const updateDateSelection = (response) => {
+export const queryRDS = (response={}) => {
    return {
-      type: UPDATE_DATE_SELECTION,
+      type: QUERY_RDS,
+      payload: response
+   };
+};
+export const queryRDSSuccess = (response={}) => {
+   return {
+      type: QUERY_RDS_SUCCESS,
       payload: response,
    };
 };
- /* -------------------------------------------------------- */

@@ -1,20 +1,23 @@
 import { Service } from '../services';
 
-const domainAWS = 'https://34irp00joi.execute-api.ap-southeast-1.amazonaws.com/dev';
-const path = 'weatherdata';
+const API_DOMAIN = process.env.API_DOMAIN;
 
-export const queryAllDataApi = async ({ dateFrom, dateTo, paramList }) => {
+export const queryDynamoDBApi = async ({}) => {
   try {
     let method = 'GET';
-    var queryParam = '?'
-      + `dateFrom=${dateFrom}` + '&'
-      + `dateTo=${dateTo}` + '&' 
-      + `parameters=${paramList}`;
-    
-    var newPath = path + queryParam;
-    
-    let response = await Service(domainAWS, newPath, { method });
-    
+    let path = 'dynamodb';
+    let response = await Service(API_DOMAIN, path, { method });
+    return response;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export const queryRDSApi = async ({}) => {
+  try {
+    let method = 'GET';
+    let path = 'rds';
+    let response = await Service(API_DOMAIN, path, { method });
     return response;
   } catch (error) {
     throw error;
