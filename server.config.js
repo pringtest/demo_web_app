@@ -2,7 +2,7 @@ module.exports = {
 	apps: [
 		{
 			name: 'NextJs',
-			script: 'npm start',
+			script: 'sudo npm start',
 			instances: 0,
 			exec_mode: 'fork',
 			watch: true,
