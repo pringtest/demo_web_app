@@ -13,7 +13,7 @@ import dynamic from 'next/dynamic'
 const DynamicReactJson = dynamic(import('react-json-view'), { ssr: false });
 
 // actions
-import { queryDynamoDB } from '../appRedux/actions'
+import { queryDynamoDB, queryRDS } from '../appRedux/actions'
 
 const headingStyles = {
   marginTop: 0,
@@ -42,7 +42,7 @@ const Home = () => {
     dispatch(queryDynamoDB())
   }
   const _rds_onClick = () => {
-    // dispatch(queryAllData(params))
+    dispatch(queryRDS())
   }
 
   return (
