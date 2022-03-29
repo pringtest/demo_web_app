@@ -1,7 +1,8 @@
 import { all, fork, call, put, takeEvery } from 'redux-saga/effects'
 
 import {
-   QUERY_DYNAMO_DB
+   QUERY_DYNAMO_DB,
+   QUERY_RDS,
 } from "../constants";
 
 // actions
@@ -47,7 +48,7 @@ export function* queryDynamoDB() {
    yield takeEvery(QUERY_DYNAMO_DB, queryDynamoDBRequest)
 }
 export function* queryRDS() {
-   yield takeEvery(QUERY_DYNAMO_DB, queryRDSRequest)
+   yield takeEvery(QUERY_RDS, queryRDSRequest)
 }
 
 function* rootSaga() {
