@@ -1,12 +1,12 @@
 import Head from 'next/head'
-import Image from 'next/image'
+// import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 
 // package
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect, useState } from 'react'
 import moment from 'moment'
-import { Button, Select } from 'antd';
+import { Button, Image } from 'antd';
 import 'antd/dist/antd.css';
 import dynamic from 'next/dynamic'
 
@@ -14,6 +14,8 @@ const DynamicReactJson = dynamic(import('react-json-view'), { ssr: false });
 
 // actions
 import { queryDynamoDB, queryRDS } from '../appRedux/actions'
+
+const IMAGE_URL = process.env.IMAGE_URL;
 
 const headingStyles = {
   marginTop: 0,
@@ -54,24 +56,35 @@ const Home = () => {
       </Head>
 
       <main className={styles.main}>
-        <div>
-          <h1 style={headingStyles}>
-            Congratulations
-            <br />
-            <span style={headingAccentStyles}>— you just made a NextJs site! </span>
-            <span role="img" aria-label="Party popper emojis">
-              🎉🎉🎉
-            </span>
-          </h1>
-          <p style={paragraphStyles}>
-            <code style={codeStyles}>
-              It's OK to struggle. It's not ok to give up.
-              <span role="img" aria-label="Sunglasses smiley emoji">
-                😎
+        <div style={{ display: "flex", flex: 1, flexDirection: "row" }}>
+          <div style={{ flex: 0.5 }}>
+            <h1 style={headingStyles}>
+              Congratulations
+              <br />
+              <span style={headingAccentStyles}>— you just made a NextJs site! </span>
+              <span role="img" aria-label="Party popper emojis">
+                🎉🎉🎉
               </span>
-            </code>
-          </p>
+            </h1>
+            <p style={paragraphStyles}>
+              <code style={codeStyles}>
+                It's OK to struggle. It's not ok to give up.
+                <span role="img" aria-label="Sunglasses smiley emoji">
+                  😎
+                </span>
+              </code>
+            </p>
+          </div>
+
+          <div style={{ flex: 0.5 }}>
+            <Image
+              preview={false}
+              width={500}
+              src={IMAGE_URL}
+            />
+          </div>
         </div>
+
 
         <div style={{ display: "flex", flex: 1, flexDirection: "row" }}>
           <div style={{ padding: 20, flex: 0.5 }}>
