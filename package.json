@@ -5,7 +5,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "export": "next export",
+    "webdeploy": "aws s3 sync out s3://<BUCKET_HOSTING_NAME>"
   },
   "dependencies": {
     "@amcharts/amcharts4": "^4.10.23",
