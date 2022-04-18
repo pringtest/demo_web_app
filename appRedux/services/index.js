@@ -7,7 +7,7 @@ export const Service = async (domain='', path=null, { method='', payload={}, aut
     }
 
     let headers = {
-      'Content-Type'  : 'application/json'
+      // 'Content-Type'  : 'application/json'
     }
     
     if (authorization){

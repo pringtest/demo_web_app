@@ -29,6 +29,20 @@ yarn build && yarn start
 yarn build && yarn export
 ```
 
+## dockerize
+
+1. create the container for the app
+```sh
+docker build . -t demo-web-server
+```
+
+2. run the container and publish. 
+```sh
+docker run -p 4001:80 demo-web-server
+```
+
+-  `Note: publish or -p will creates a firewall rule which maps a container port to a port on the Docker host`
+
 [Next.js]: <https://nextjs.org/>
 [create-next-app]: <https://github.com/vercel/next.js/tree/canary/packages/create-next-app>
 [Redux Saga]: <https://redux-saga.js.org/>
