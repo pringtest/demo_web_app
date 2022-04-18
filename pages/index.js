@@ -4,11 +4,16 @@ import styles from '../styles/Home.module.css'
 
 // package
 import { useDispatch, useSelector } from 'react-redux'
+import { END } from 'redux-saga'
 import { useEffect, useState } from 'react'
 import moment from 'moment'
-import { Button, Image } from 'antd';
-import 'antd/dist/antd.css';
+import { Button, Image } from 'antd'
+import 'antd/dist/antd.css'
 import dynamic from 'next/dynamic'
+import { wrapper } from '../appRedux/store'
+
+import Link from 'next/link';
+import champions from '../data';
 
 const DynamicReactJson = dynamic(import('react-json-view'), { ssr: false });
 
@@ -56,38 +61,60 @@ const Home = () => {
       </Head>
 
       <main className={styles.main}>
-        <div style={{ display: "flex", flex: 1, flexDirection: "row" }}>
-          <div style={{ flex: 0.5 }}>
-            <h1 style={headingStyles}>
-              Congratulations
-              <br />
-              <span style={headingAccentStyles}>— you just made a NextJs site! </span>
-              <span role="img" aria-label="Party popper emojis">
-                🎉🎉🎉
-              </span>
-            </h1>
-            <p style={paragraphStyles}>
-              <code style={codeStyles}>
-                It's OK to struggle. It's not ok to give up.
-                <span role="img" aria-label="Sunglasses smiley emoji">
-                  😎
-                </span>
-              </code>
-            </p>
-          </div>
 
-          <div style={{ flex: 0.5 }}>
-            <Image
-              preview={false}
-              width={500}
-              src={IMAGE_URL}
-            />
+        <div style={{ display: "flex", flex: 0.1, flexDirection: "row", backgroundColor: "transparent" }}>
+          <div style={{ display: "flex", flexDirection: "column", flex: 0.5, justifyContent: "center", alignItems: "center", backgroundColor: "transparent" }}>
+            <div>
+              <h1 style={headingStyles}>
+                Congratulations
+                <br />
+                <span style={headingAccentStyles}>— you just made a NextJs site! </span>
+                <span role="img" aria-label="Party popper emojis">
+                  🎉🎉🎉
+                </span>
+              </h1>
+            </div>
+            <div>
+              <p style={paragraphStyles}>
+                <code style={codeStyles}>
+                  It's OK to struggle. It's not ok to give up.
+                  <span role="img" aria-label="Sunglasses smiley emoji">
+                    😎
+                  </span>
+                </code>
+              </p>
+            </div>
+
+          </div>
+          <div style={{ display: "flex", flexDirection: "column", flex: 0.5, justifyContent: "center", alignItems: "center", backgroundColor: "transparent" }}>
+            <div>
+              <Image
+                preview={false}
+                width={500}
+                src={IMAGE_URL}
+              />
+            </div>
           </div>
         </div>
 
+        {/* <div style={{ padding: "3rem" }}>
+          <main>
+            <h1>List of Tennis GrandSlam Champions with 20 titles</h1>
+            <ul>
+              {champions.map((item) => (
+                <li key={item.slug}>
+                  <Link href={`/champions/${item.slug}`}>
+                    <a>{item.title}</a>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </main>
+        </div> */}
 
-        <div style={{ display: "flex", flex: 1, flexDirection: "row" }}>
-          <div style={{ padding: 20, flex: 0.5 }}>
+
+        <div style={{ display: "flex", flex: 0.9, flexDirection: "row", backgroundColor: "transparent" }}>
+          <div style={{ padding: 20, flex: 1 }}>
             <h1>
               Click below button to get data from Dynamo DB
             </h1>
@@ -98,20 +125,6 @@ const Home = () => {
             </div>
             <div style={{ marginTop: 20, padding: 10, borderWidth: 1, borderColor: "black" }}>
               <DynamicReactJson src={dynamoDB_Data} />
-            </div>
-          </div>
-
-          <div style={{ padding: 20, flex: 0.5 }}>
-            <h1>
-              Click below button to get data from RDS
-            </h1>
-            <div style={{ marginTop: 20 }}>
-              <Button type="primary" loading={rds_Data_loader} onClick={_rds_onClick}>
-                Query
-              </Button>
-            </div>
-            <div style={{ marginTop: 20, padding: 10, borderWidth: 1, borderColor: "black" }}>
-              <DynamicReactJson src={rds_Data} />
             </div>
           </div>
         </div>
@@ -131,18 +144,18 @@ const Home = () => {
   )
 }
 
-// export const getStaticProps = wrapper.getStaticProps(async ({ store }) => {
-//   const dataState = store.getState();
-//   console.log("dataState: ", dataState)
-//   store.dispatch(END);
-//   await store.sagaTask.toPromise()
+// This gets called at build time
+export const getStaticProps = wrapper.getStaticProps(async ({ store }) => {
+  // const championData = { data: "test", timestamp: (new Date()).toUTCString() };
 
-//   return { 
-//     props: { 
-//       dataState
-//     }
-//   };
-// })
+  const dataState = store.getState();
+
+  store.dispatch(END);
+  await store.sagaTask.toPromise()
+
+  // Pass data to the page via props
+  return { props: dataState };
+})
 
 // export const getServerSideProps = wrapper.getServerSideProps(async ({ store }) => {
 //   const dataState = store.getState();
