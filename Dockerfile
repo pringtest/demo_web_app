@@ -4,7 +4,7 @@ FROM nginx:stable-alpine
 # copy static web to nginx html folder
 COPY ./out /usr/share/nginx/html
 
-# copy out custom nginx config to the default nginx config
+# copy custom nginx config to the default nginx config
 COPY nginx/static/nginx.conf /etc/nginx/conf.d/default.conf
 
 # The EXPOSE instruction does not actually publish the port. 
