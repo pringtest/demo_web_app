@@ -2,6 +2,10 @@
 
 This is a [Next.js] project bootstrapped with [create-next-app] and has been added with [Redux Saga]
 
+## Setting the environment
+
+1. Copy and paste `next.config.example.js` to `next.config.js` and fillup all the parameters
+
 ## Development
 
 1. First, run the development server.
